@@ -2,22 +2,65 @@
 #include <stdlib.h>
 #include <string>
 #include <stack>
+#include <vector>
 using namespace std;
 
-void printStack(stack<int> &values) {
+void print_stack(stack<int> &values) {
 	stack<int> temp = values;
-	while (!values.empty()) {
-		// Prints stack right to left
-		cout << values.top() << " ";
-		values.pop();
+	if (values.size() <= 0) {
+		cout << "Stack is empty" << endl;
 	}
-	cout << endl;
-	values = temp;
+	else {
+		while (!values.empty()) {
+			// Prints stack right to left
+			cout << values.top() << " ";
+			values.pop();
+		}
+		cout << endl;
+		values = temp;
+	}
+}
+
+void print_help(string command) {
+	cout << "Commands" << endl;
+	cout << "- clear: Clear the stack" << endl;
+	cout << "- exit: Exit the calculator" << endl;
+	cout << "- pop: Remove top element of stack" << endl;
+	cout << "- print: Print the current stack" << endl;
+}
+
+bool is_number(string input) {
+	for (int i = 0; i < input.length(); i++) {
+		if (!isdigit(input[i])) {
+			return false;
+			break;
+		}
+	}
+	return true;
+}
+
+const vector<string> explode(string input, char delimiter) {
+	string temp = "";
+	vector<string> values;
+	//vector<string>::size_type i = 0; i != arguments.size(); i++
+	for (int i = 0; i < input.length(); i++) {
+		if (input[i] != delimiter) {
+			temp += input[i];
+		}
+		else if (input[i] == delimiter && temp != "") {
+			values.push_back(temp);
+			temp = "";
+		}
+	}
+	if (temp != "") {
+		values.push_back(temp);
+	}
+	return values;
 }
 
 void process(stack<int> &values, string input) {
 	if (input != "") {
-		// Process input
+		// Custom commands
 		if (input == "exit") {
 			exit (0);
 		}
@@ -25,7 +68,23 @@ void process(stack<int> &values, string input) {
 			while (!values.empty()) {
 				values.pop();
 			}
+			cout << "Cleared stack" << endl;
 		}
+		else if (input == "pop") {
+			if (values.size() >= 1) {
+				values.pop();
+			}
+			else {
+				cout << "Stack error: Cannot pop value from empty stack" << endl;
+			}
+		}
+		else if (input == "print") {
+			print_stack(values);
+		}
+		else if (input == "help") {
+			print_help("");
+		}
+		// Operators
 		else if (input == "+" || input == "-" || input == "*" || input == "/") { // ^ and %
 			if (values.size() < 2) {
 				cout << "Stack error: Need integers to compute with" << endl;
@@ -39,7 +98,7 @@ void process(stack<int> &values, string input) {
 					values.push(a + b);
 				}
 				else if (input == "-") {
-					values.push(a - b);
+					values.push(b - a);
 				}
 				else if (input == "*") {
 					values.push(a * b);
@@ -47,12 +106,18 @@ void process(stack<int> &values, string input) {
 				else if (input == "/") {
 					values.push(a / b);
 				}
-				// If you want to print
-				printStack(values);
+				if (values.size() == 1) {
+					print_stack(values);
+				}
 			}
 		}
-		else {
+		// Numbers
+		else if (is_number(input)) {
 			values.push(stoi(input));
+		}
+		// Error
+		else {
+			cout << "Unrecognized command" << endl;
 		}
 	}
 }
@@ -63,6 +128,16 @@ int main() {
 	while (true) {
 		cout << ">> ";
 		getline (cin, input);
-		process (values, input);
+		// Check for multiple arguments
+		if (count(input.begin(), input.end(), ' ') > 0) {
+			// Explode
+			vector<string> arguments = explode(input, ' ');
+			for (vector<string>::size_type i = 0; i != arguments.size(); i++) {
+ 				process (values, arguments[i]);
+			}
+		}
+		else {
+			process (values, input);
+		}
 	}
 }
