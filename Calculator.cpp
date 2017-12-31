@@ -56,7 +56,7 @@ const vector<string> explode(string input, char delimiter) {
 	return values;
 }
 
-void process(stack<int> &values, string input) {
+void process(stack<int> &values, string input, bool single_arg) {
 	if (input != "") {
 		// Custom commands
 		if (input == "exit") {
@@ -93,18 +93,18 @@ void process(stack<int> &values, string input) {
 				int b = values.top();
 				values.pop();
 				if (input == "+") {
-					values.push(a + b);
+					values.push(b + a);
 				}
 				else if (input == "-") {
 					values.push(b - a);
 				}
 				else if (input == "*") {
-					values.push(a * b);
+					values.push(b * a);
 				}
 				else if (input == "/") {
-					values.push(a / b);
+					values.push(b / a);
 				}
-				if (values.size() == 1) {
+				if (values.size() == 1 && single_arg) {
 					print_stack(values);
 				}
 			}
@@ -132,11 +132,14 @@ int main() {
 			vector<string> arguments = explode(input, ' ');
 			// For each argument
 			for (vector<string>::size_type i = 0; i != arguments.size(); i++) {
- 				process (values, arguments[i]);
+ 				process (values, arguments[i], false);
+			}
+			if (values.size() == 1) {
+				print_stack(values);
 			}
 		}
 		else {
-			process (values, input);
+			process (values, input, true);
 		}
 	}
 }
