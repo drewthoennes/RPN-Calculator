@@ -12,7 +12,6 @@ void print_stack(stack<int> &values) {
 	}
 	else {
 		while (!values.empty()) {
-			// Prints stack right to left
 			cout << values.top() << " ";
 			values.pop();
 		}
@@ -42,7 +41,6 @@ bool is_number(string input) {
 const vector<string> explode(string input, char delimiter) {
 	string temp = "";
 	vector<string> values;
-	//vector<string>::size_type i = 0; i != arguments.size(); i++
 	for (int i = 0; i < input.length(); i++) {
 		if (input[i] != delimiter) {
 			temp += input[i];
@@ -132,6 +130,7 @@ int main() {
 		if (count(input.begin(), input.end(), ' ') > 0) {
 			// Explode
 			vector<string> arguments = explode(input, ' ');
+			// For each argument
 			for (vector<string>::size_type i = 0; i != arguments.size(); i++) {
  				process (values, arguments[i]);
 			}
