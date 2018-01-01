@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <math.h>
 #include <string>
 #include <stack>
 #include <vector>
@@ -56,7 +57,7 @@ const vector<string> explode(string input, char delimiter) {
 	return values;
 }
 
-void process(stack<int> &values, string input, bool single_arg) {
+bool process(stack<int> &values, string input, bool single_arg) {
 	if (input != "") {
 		// Custom commands
 		if (input == "exit") {
@@ -74,6 +75,7 @@ void process(stack<int> &values, string input, bool single_arg) {
 			}
 			else {
 				cout << "Stack error: Cannot pop value from empty stack" << endl;
+				return false;
 			}
 		}
 		else if (input == "print") {
@@ -83,9 +85,10 @@ void process(stack<int> &values, string input, bool single_arg) {
 			print_help("");
 		}
 		// Operators
-		else if (input == "+" || input == "-" || input == "*" || input == "/") { // ^ and %
+		else if (input == "+" || input == "-" || input == "*" || input == "/" || input == "^" || input == "%") { // ^ and %
 			if (values.size() < 2) {
 				cout << "Stack error: Need integers to compute with" << endl;
+				return false;
 			}
 			else {
 				int a = values.top();
@@ -102,7 +105,19 @@ void process(stack<int> &values, string input, bool single_arg) {
 					values.push(b * a);
 				}
 				else if (input == "/") {
+					if (a == 0) {
+						cout << "Cannot divide by zero" << endl;
+						values.push(b);
+						values.push(a);
+						return false;
+					}
 					values.push(b / a);
+				}
+				else if (input == "^") {
+					values.push(pow(b, a));
+				}
+				else if (input == "%") {
+					values.push(b % a);
 				}
 				if (values.size() == 1 && single_arg) {
 					print_stack(values);
@@ -116,8 +131,10 @@ void process(stack<int> &values, string input, bool single_arg) {
 		// Error
 		else {
 			cout << "Unrecognized command" << endl;
+			return false;
 		}
 	}
+	return true;
 }
 
 int main() {
@@ -131,10 +148,14 @@ int main() {
 			// Explode
 			vector<string> arguments = explode(input, ' ');
 			// For each argument
+			bool error = false;
 			for (vector<string>::size_type i = 0; i != arguments.size(); i++) {
- 				process (values, arguments[i], false);
+ 				if (!process (values, arguments[i], false)) {
+ 					error = true;
+ 					break;
+ 				}
 			}
-			if (values.size() == 1) {
+			if (values.size() == 1 && !error) {
 				print_stack(values);
 			}
 		}
