@@ -29,6 +29,12 @@ void print_help(string command) {
 	cout << "- print: Print the current stack" << endl;
 }
 
+void clear(stack<int> &values) {
+	while (!values.empty()) {
+		values.pop();
+	}
+}
+
 bool is_number(string input) {
 	for (int i = 0; i < input.length(); i++) {
 		if (!isdigit(input[i])) {
@@ -75,6 +81,9 @@ bool process(stack<int> &values, string input, bool single_arg) {
 			}
 			else {
 				cout << "Stack error: Cannot pop value from empty stack" << endl;
+				if (!single_arg) {
+					clear(values);
+				}
 				return false;
 			}
 		}
@@ -88,6 +97,9 @@ bool process(stack<int> &values, string input, bool single_arg) {
 		else if (input == "+" || input == "-" || input == "*" || input == "/" || input == "^" || input == "%") { // ^ and %
 			if (values.size() < 2) {
 				cout << "Stack error: Need integers to compute with" << endl;
+				if (!single_arg) {
+					clear(values);
+				}
 				return false;
 			}
 			else {
@@ -109,6 +121,9 @@ bool process(stack<int> &values, string input, bool single_arg) {
 						cout << "Cannot divide by zero" << endl;
 						values.push(b);
 						values.push(a);
+						if (!single_arg) {
+							clear(values);
+						}
 						return false;
 					}
 					values.push(b / a);
@@ -131,6 +146,9 @@ bool process(stack<int> &values, string input, bool single_arg) {
 		// Error
 		else {
 			cout << "Unrecognized command" << endl;
+			if (!single_arg) {
+				clear(values);
+			}
 			return false;
 		}
 	}
@@ -138,6 +156,7 @@ bool process(stack<int> &values, string input, bool single_arg) {
 }
 
 int main() {
+	cout << "RPN Calculator v1.0.0" << endl;
 	string input;
 	stack<int> values;
 	while (true) {
