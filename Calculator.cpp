@@ -23,7 +23,7 @@ void print_stack(stack<double> &values) {
 	}
 }
 
-void print_help(string command) {
+void print_help(const string& command) {
 	cout << "Commands" << endl;
 	cout << "  clear: Clear the stack" << endl;
 	cout << "  exit: Exit the calculator" << endl;
@@ -47,7 +47,7 @@ bool is_number(string input) {
 	return true;
 }
 
-bool process(stack<double> &values, string input, bool single_arg) {
+bool process(stack<double> &values, const string& input, bool single_arg) {
 	if (input != "") {
 		// Custom commands
 		if (input == "exit") {
