@@ -10,7 +10,10 @@ bool operate(stack<double> &values, string input) {
     cout << "Unrecognized command" << endl;
     return false;
   }
-  if (input == "sin" || input == "cos" || input == "log") {
+  if (input == "pi") {
+    values.push(3.14159);
+  }
+  else if (input == "sin" || input == "cos" || input == "log" || input == "sqrt") {
     double a = values.top();
     values.pop();
     if (input == "sin") {
@@ -21,6 +24,9 @@ bool operate(stack<double> &values, string input) {
     }
     else if (input == "log") {
       values.push(log(a));
+    }
+    else if (input == "sqrt") {
+      values.push(sqrt(a));
     }
   }
   else if (values.size() < 2) {

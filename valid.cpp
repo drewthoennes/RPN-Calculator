@@ -10,5 +10,7 @@ bool isValid(string input) {
     || input == "%"
     || input == "sin"
     || input == "cos"
-    || input == "log";
+    || input == "log"
+    || input == "sqrt"
+    || input == "pi";
 }
