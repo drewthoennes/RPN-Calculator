@@ -13,7 +13,7 @@ bool operate(stack<double> &values, string input) {
   if (input == "pi") {
     values.push(3.14159);
   }
-  else if (input == "sin" || input == "cos" || input == "log" || input == "sqrt") {
+  else if (input == "sin" || input == "cos" || input == "ln" || input == "sqrt") {
     double a = values.top();
     values.pop();
     if (input == "sin") {
@@ -22,7 +22,7 @@ bool operate(stack<double> &values, string input) {
     else if (input == "cos") {
       values.push(cos(a));
     }
-    else if (input == "log") {
+    else if (input == "ln") {
       values.push(log(a));
     }
     else if (input == "sqrt") {

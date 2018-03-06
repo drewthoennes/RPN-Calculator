@@ -26,9 +26,27 @@ void print_stack(stack<double> &values) {
 void print_help(const string& command) {
 	cout << "Commands" << endl;
 	cout << "  clear: Clear the stack" << endl;
+	cout << "  dup: Duplicate the number at the top of the stack" << endl;
+	cout << "  operations: Print a list of operations" << endl;
 	cout << "  exit: Exit the calculator" << endl;
 	cout << "  pop: Remove top element of stack" << endl;
 	cout << "  print: Print the current stack" << endl;
+	cout << "  swap: Swap the top two value" << endl;
+}
+
+void print_operations(const string& command) {
+	cout << "Operations" << endl;
+	cout << "  +: Addition" << endl;
+	cout << "  -: Subtraction" << endl;
+	cout << "  *: Multiplication" << endl;
+	cout << "  /: Division" << endl;
+	cout << "  ^: Exponent" << endl;
+	cout << "  %: Modulus" << endl;
+	cout << "  sin: Sin (rad)" << endl;
+	cout << "  cos: Cos (rad)" << endl;
+	cout << "  ln: Natural Log" << endl;
+	cout << "  sqrt: Square Root" << endl;
+	cout << "  pi: Pi (const)" << endl;
 }
 
 void clear(stack<double> &values) {
@@ -38,10 +56,24 @@ void clear(stack<double> &values) {
 }
 
 bool is_number(string input) {
+	bool decimal = false;
 	for (int i = 0; i < input.length(); i++) {
-		if (!isdigit(input[i]) && input[i] != '.') {
+		// Allow negative numbers
+		if (input[0] == '-') {
+			continue;
+		}
+		else if (!isdigit(input[i]) && input[i] != '.') {
 			return false;
 			break;
+		}
+		else if (input[i] == '.') {
+			// Only one decimal in a number
+			if (!decimal) {
+				decimal = true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 	return true;
@@ -69,11 +101,34 @@ bool process(stack<double> &values, const string& input, bool single_arg) {
 				return false;
 			}
 		}
+		else if (input == "dup") {
+			if (values.size() < 1) {
+				cout << "Stack error: Need integers to compute with" << endl;
+				return false;
+			}
+			double a = values.top();
+			values.push(a);
+		}
+		else if (input == "swap") {
+			if (values.size() < 2) {
+				cout << "Stack error: Need integers to compute with" << endl;
+				return false;
+			}
+			double a = values.top();
+			values.pop();
+			double b = values.top();
+			values.pop();
+			values.push(a);
+			values.push(b);
+		}
 		else if (input == "print") {
 			print_stack(values);
 		}
 		else if (input == "help") {
 			print_help("");
+		}
+		else if (input == "operations") {
+			print_operations("");
 		}
 		// Number
 		else if (is_number(input)) {
@@ -86,7 +141,8 @@ bool process(stack<double> &values, const string& input, bool single_arg) {
 			}
 			return false;
 		}
-		else if (values.size() == 1 && single_arg) {
+		// Include pi to prevent constants from printing
+		else if (values.size() == 1 && single_arg && input != "pi") {
 			print_stack(values);
 		}
 	}
