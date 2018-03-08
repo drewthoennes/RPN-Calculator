@@ -6,6 +6,7 @@
 #include <vector>
 #include "operations.h"
 #include "explode.h"
+#include "valid.h"
 using namespace std;
 
 void print_stack(stack<double> &values) {
@@ -44,39 +45,19 @@ void print_operations(const string& command) {
 	cout << "  %: Modulus" << endl;
 	cout << "  sin: Sin (rad)" << endl;
 	cout << "  cos: Cos (rad)" << endl;
+	cout << "  log{base}: Log of an integer base" << endl;
 	cout << "  ln: Natural Log" << endl;
+	cout << "  ceil: Ceiling" << endl;
+	cout << "  floor: Floor" << endl;
 	cout << "  sqrt: Square Root" << endl;
 	cout << "  pi: Pi (const)" << endl;
+	cout << "  e: e (const)" << endl;
 }
 
 void clear(stack<double> &values) {
 	while (!values.empty()) {
 		values.pop();
 	}
-}
-
-bool is_number(string input) {
-	bool decimal = false;
-	for (int i = 0; i < input.length(); i++) {
-		// Allow negative numbers
-		if (input[0] == '-') {
-			continue;
-		}
-		else if (!isdigit(input[i]) && input[i] != '.') {
-			return false;
-			break;
-		}
-		else if (input[i] == '.') {
-			// Only one decimal in a number
-			if (!decimal) {
-				decimal = true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-	return true;
 }
 
 bool process(stack<double> &values, const string& input, bool single_arg) {
@@ -142,7 +123,7 @@ bool process(stack<double> &values, const string& input, bool single_arg) {
 			return false;
 		}
 		// Include pi to prevent constants from printing
-		else if (values.size() == 1 && single_arg && input != "pi") {
+		else if (values.size() == 1 && single_arg && input != "pi" && input != "e") {
 			print_stack(values);
 		}
 	}
@@ -160,8 +141,8 @@ int main() {
 		if (count(input.begin(), input.end(), ' ') > 0) {
 			// Explode
 			vector<string> arguments = explode(input, ' ');
-			// For each argument
 			bool error = false;
+			// For each argument
 			for (vector<string>::size_type i = 0; i != arguments.size(); i++) {
  				if (!process(values, arguments[i], false)) {
  					error = true;
