@@ -5,7 +5,7 @@ bool is_number(string input) {
 	bool decimal = false;
 	for (int i = 0; i < input.length(); i++) {
 		// Allow negative numbers
-		if (input[0] == '-') {
+		if (input[0] == '-' && input.length() != 1) {
 			continue;
 		}
 		else if (!isdigit(input[i]) && input[i] != '.') {
