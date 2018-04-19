@@ -1,7 +1,7 @@
 #include <string>
 using namespace std;
 
-bool is_number(string input) {
+bool isNumber(string input) {
 	bool decimal = false;
 	for (int i = 0; i < input.length(); i++) {
 		// Allow negative numbers

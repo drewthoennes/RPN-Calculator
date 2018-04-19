@@ -5,5 +5,11 @@ Just a simple calculator with all the functionality you could ever need
 Clone this repository and then run
 ```shell
 make
-./a.out
+./calculator
+```
+
+## Unit Tests
+```shell
+make tests
+./testall
 ```

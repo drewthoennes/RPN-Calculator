@@ -9,7 +9,7 @@
 #include "valid.h"
 using namespace std;
 
-void print_stack(stack<double> &values) {
+void printStack(stack<double> &values) {
 	stack<double> temp = values;
 	if (values.size() <= 0) {
 		cout << "Stack is empty" << endl;
@@ -24,7 +24,7 @@ void print_stack(stack<double> &values) {
 	}
 }
 
-void print_help(const string& command) {
+void printHelp(const string& command) {
 	cout << "Commands" << endl;
 	cout << "  clear: Clear the stack" << endl;
 	cout << "  dup: Duplicate the number at the top of the stack" << endl;
@@ -35,7 +35,7 @@ void print_help(const string& command) {
 	cout << "  swap: Swap the top two value" << endl;
 }
 
-void print_operations(const string& command) {
+void printOperations(const string& command) {
 	cout << "Operations" << endl;
 	cout << "  +: Addition" << endl;
 	cout << "  -: Subtraction" << endl;
@@ -103,16 +103,16 @@ bool process(stack<double> &values, const string& input, bool single_arg) {
 			values.push(b);
 		}
 		else if (input == "print") {
-			print_stack(values);
+			printStack(values);
 		}
 		else if (input == "help") {
-			print_help("");
+			printHelp("");
 		}
 		else if (input == "operations") {
-			print_operations("");
+			printOperations("");
 		}
 		// Number
-		else if (is_number(input)) {
+		else if (isNumber(input)) {
 			values.push(stod(input));
 		}
 		// Operator
@@ -124,37 +124,8 @@ bool process(stack<double> &values, const string& input, bool single_arg) {
 		}
 		// Include pi to prevent constants from printing
 		else if (values.size() == 1 && single_arg && input != "pi" && input != "e") {
-			print_stack(values);
+			printStack(values);
 		}
 	}
 	return true;
-}
-
-int main() {
-	cout << "RPN Calculator v1.1.0" << endl;
-	string input;
-	stack<double> values;
-	while (true) {
-		cout << ">> ";
-		getline (cin, input);
-		// Check for multiple arguments
-		if (count(input.begin(), input.end(), ' ') > 0) {
-			// Explode
-			vector<string> arguments = explode(input, ' ');
-			bool error = false;
-			// For each argument
-			for (vector<string>::size_type i = 0; i != arguments.size(); i++) {
- 				if (!process(values, arguments[i], false)) {
- 					error = true;
- 					break;
- 				}
-			}
-			if (values.size() == 1 && !error) {
-				print_stack(values);
-			}
-		}
-		else {
-			process (values, input, true);
-		}
-	}
 }
