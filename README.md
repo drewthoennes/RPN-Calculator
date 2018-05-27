@@ -5,7 +5,14 @@ Just a simple calculator with all the functionality you could ever need
 Clone this repository and then run
 ```shell
 make
-./calculator
+./rpn
+```
+
+## Install
+Install for system-wide access
+```shell
+make install
+rpn
 ```
 
 ## Unit Tests
