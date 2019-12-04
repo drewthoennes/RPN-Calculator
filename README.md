@@ -17,6 +17,6 @@ rpn
 
 ## Unit Tests
 ```shell
-make tests
+make test
 ./testall
 ```

@@ -13,5 +13,5 @@ clean:
 	rm -f rpn
 	rm -f testall
 
-install:
+install: rpn
 	cp -f rpn /usr/local/bin/rpn

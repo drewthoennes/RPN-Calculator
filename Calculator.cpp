@@ -11,7 +11,7 @@
 using namespace std;
 
 int main() {
-	cout << "RPN Calculator v1.2.0" << endl;
+	cout << "RPN Calculator v1.3.0" << endl;
 
 	string input;
 	stack<double> values;
