@@ -1,10 +1,13 @@
-all: calculator
+CC=g++
+CFLAGS=-Wall
 
-calculator: handler.cpp Calculator.cpp operations.cpp explode.cpp valid.cpp
-	g++ -o rpn  handler.cpp Calculator.cpp operations.cpp explode.cpp valid.cpp
+all: rpn
 
-tests: operations.cpp explode.cpp valid.cpp test/tests.cpp test/Calculator.cpp test/operations.cpp test/explode.cpp test/valid.cpp
-	g++ -o testall Calculator.cpp operations.cpp explode.cpp valid.cpp test/tests.cpp test/Calculator.cpp test/operations.cpp test/explode.cpp test/valid.cpp
+rpn: calculator.cpp operations.cpp helpers.cpp
+	$(CC) $(CFLAGS) -o rpn  calculator.cpp operations.cpp helpers.cpp
+
+test: operations.cpp helpers.cpp test/tests.cpp test/operations.cpp test/helpers.cpp
+	$(CC) $(CFLAGS) -o testall operations.cpp helpers.cpp test/tests.cpp test/operations.cpp test/helpers.cpp
 
 clean:
 	rm -f rpn

@@ -1,10 +1,10 @@
 #include <iostream>
 #include <stack>
 #include <string>
-#include "../valid.h"
+#include "helpers.h"
 
 using namespace std;
 
-void testValid() {
-  cout << "Testing valid" << endl;
+void testHelpers() {
+  cout << "Testing helpers" << endl;
 }
