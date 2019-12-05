@@ -160,7 +160,21 @@ bool operate(stack<double> &values, string input) {
     return true;
   }
   else if (input.substr(0, 3) == "log") {
-    values.push(log(a) / log(stod(input.substr(3, input.length()))));
+    string baseString = input.substr(3, input.length());
+    if (!isNumber(baseString)) {
+      cout << "Operation error: Invalid base" << endl;
+      values.push(a);
+      return false;
+    }
+
+    int base = stod(baseString);
+    if (base <= 0) {
+      cout << "Operation error: Invalid base" << endl;
+      values.push(a);
+      return false;
+    }
+
+    values.push(log(a) / log(base));
     return true;
   }
 

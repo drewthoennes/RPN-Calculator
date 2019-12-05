@@ -9,6 +9,7 @@ bool testExplodeWorks(int test);
 bool isNumberLetter(int test);
 bool isNumberSymbol(int test);
 bool isNumberDecimal(int test);
+bool isNumberMultipleDecimals(int test);
 bool isNumberWorks(int test);
 
 #endif

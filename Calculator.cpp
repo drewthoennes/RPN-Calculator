@@ -39,7 +39,7 @@ int main() {
 			error = !process(values, input);
 		}
 
-		if (values.size() == 1 && !error) {
+		if (values.size() == 1 && !error && input != "print") {
 			printStack(values);
 		}
 	}
